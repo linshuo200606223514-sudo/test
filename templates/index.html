@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">企业内部AI学习平台V1.0</h1>
+        <p class="lead text-muted">汕头市澄海区溪南东社造纸厂专用</p>
+    </div>
+
+    {% if categories %}
+    <div class="row g-4">
+        {% for category in categories %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    {% if category.description %}
+                    <p class="card-text text-muted mt-2">{{ category.description }}</p>
+                    {% endif %}
+                    <a href="{{ url_for('category', category_id=category.id) }}" class="btn btn-primary mt-3">
+                        进入学习
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        <h4>暂无分类</h4>
+        <p>请联系管理员添加学习分类</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

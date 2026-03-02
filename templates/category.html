@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category.name }} - 汕头市澄海区溪南东社造纸厂开放学习平台{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">首页</a></li>
+            <li class="breadcrumb-item active">{{ category.name }}</li>
+        </ol>
+    </nav>
+
+    <h2 class="mb-4">{{ category.name }}</h2>
+
+    {% if category.description %}
+    <p class="lead text-muted mb-4">{{ category.description }}</p>
+    {% endif %}
+
+    {% if videos %}
+    <div class="row g-4">
+        {% for video in videos %}
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                {% if video.cover_url %}
+                <img src="{{ video.cover_url }}" class="card-img-top" alt="{{ video.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <span class="text-white">暂无封面</span>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ video.title }}</h5>
+                    <p class="card-text text-muted">
+                        {% if video.description %}
+                            {{ video.description[:50] }}{% if video.description|length > 50 %}...{% endif %}
+                        {% else %}
+                            暂无介绍
+                        {% endif %}
+                    </p>
+                    <a href="{{ url_for('play', video_id=video.id) }}" class="btn btn-primary">观看视频</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        <h4>该分类下暂无视频</h4>
+        <p>请等待管理员添加视频内容</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
